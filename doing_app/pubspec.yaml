@@ -30,6 +30,9 @@ dependencies:
   cupertino_icons: ^1.0.0
   bloc: ^6.1.0
   flutter_bloc: ^6.1.1
+  http: ^0.12.2
+  async: ^2.3.0
+
 
 
 dev_dependencies:
