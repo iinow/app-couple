@@ -1,17 +1,19 @@
 import 'package:doing_app/screen/community/screen/community_page.dart';
 import 'package:doing_app/screen/main/screen/main_page.dart';
 import 'package:doing_app/screen/recommend/screen/recommend_page.dart';
+import 'package:doing_app/screen/setting/screen/setting_page.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/web_symbols_icons.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -37,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   PageStorageBucket bucket = PageStorageBucket();
 
-  get pages => [MainPage(), RecommendPage(), CommunityPage()];
+  get pages => [MainPage(), RecommendPage(), CommunityPage(), SettingPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       minHeight: 0,
                       maxWidth: MediaQuery.of(context).size.width,
                       maxHeight: 1000,
-                      child: const Icon(Icons.recommend, size: 28),
+                      child: const Icon(Icons.star_border, size: 28),
                     ),
                   ),
                   title: Text(
@@ -131,11 +133,26 @@ class _MyHomePageState extends State<MyHomePage> {
                       minHeight: 0,
                       maxWidth: MediaQuery.of(context).size.width,
                       maxHeight: 1000,
-                      child: const Icon(Icons.commute, size: 28),
+                      child: const Icon(WebSymbols.comment, size: 28),
                     ),
                   ),
                   title: Text(
                     "커뮤니티",
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  icon: Container(
+                    height: 20,
+                    child: OverflowBox(
+                      minWidth: 0,
+                      minHeight: 0,
+                      maxWidth: MediaQuery.of(context).size.width,
+                      maxHeight: 1000,
+                      child: const Icon(Icons.settings, size: 28),
+                    ),
+                  ),
+                  title: Text(
+                    "설정",
                   ),
                 ),
               ],
