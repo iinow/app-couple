@@ -1,0 +1,109 @@
+directive @specifiedBy(url: String!) on SCALAR
+type Course {
+  title: String!
+  content: String!
+  registerUser: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateCourseInput {
+  title: String!
+  content: String!
+}
+
+scalar DateTime
+
+type Device {
+  os: OS!
+  model: String!
+  version: String!
+}
+
+type Me {
+  uuid: String!
+  nickName: String!
+}
+
+type Mutation {
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createCourse(createCourseInput: CreateCourseInput!): Course!
+  updateCourse(updateCourseInput: UpdateCourseInput!): Course!
+  removeCourse(id: Int!): Course!
+  signIn(signInInput: SignInInput!): SignInOutput!
+  signUp(signUpInput: SignUpInput!): Me!
+}
+
+enum OS {
+  IOS
+  ANDROID
+}
+
+enum Provider {
+  GOOGLE
+  KAKAO
+}
+
+type Query {
+  users: [User!]!
+  user(id: Int!): User!
+  courseList: [Course!]!
+  course(id: Int!): Course!
+  me: Me!
+}
+
+enum Role {
+  ADMIN
+  USER
+  GUEST
+}
+
+input SignInInput {
+  email: String!
+  provider: Provider!
+}
+
+type SignInOutput {
+  accessToken: String!
+}
+
+input SignUpDeviceInput {
+  os: OS!
+  model: String!
+  version: String!
+}
+
+input SignUpInput {
+  email: String!
+  provider: Provider!
+  name: String!
+  nickName: String!
+  photoUrl: String!
+  device: SignUpDeviceInput!
+}
+
+input UpdateCourseInput {
+  title: String
+  content: String
+  id: Int!
+}
+
+input UpdateUserInput {
+  exampleField: Int
+  id: Int!
+}
+
+type User {
+  uuid: String!
+  name: String!
+  nickName: String!
+  email: String!
+  photoUrl: String!
+  provider: Provider!
+  role: Role!
+  device: Device!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+

@@ -1,0 +1,19 @@
+query GetMe {
+  me {
+    uuid
+    nickName
+  }
+}
+
+mutation SignIn($signInInput: SignInInput!) {
+  signIn(signInInput: $signInInput) {
+    accessToken
+  }
+}
+
+mutation SignUp($signUpInput: SignUpInput!) {
+  signUp(signUpInput: $signUpInput) {
+    uuid
+    nickName
+  }
+}
