@@ -25,7 +25,11 @@ class _createCoursePageState extends State<CreateCoursePage> {
   @override
   void initState() {
     super.initState();
+    _tagList.add("맛");
     _tagList.add("맛집");
+    _tagList.add("맛집입");
+    _tagList.add("맛집입니");
+    _tagList.add("맛집입니다");
     _tagList.add("카페");
   }
 
@@ -96,14 +100,18 @@ class _createCoursePageState extends State<CreateCoursePage> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(left: 24, top: 32, bottom: 18),
-              child: TextField(
-                controller: _textEditingControllerCourseName,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "데이트코스 이름을 입력해주세요.",
-                    hintStyle: TextStyle(fontSize: 16, color: Colors.black12)),
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              child: Container(
+                padding: EdgeInsets.only(left: 24, top: 32, bottom: 18),
+                child: TextField(
+                  controller: _textEditingControllerCourseName,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "데이트코스 이름을 입력해주세요.",
+                      hintStyle:
+                          TextStyle(fontSize: 16, color: Colors.black12)),
+                ),
               ),
             ),
 //              Image.file(File("")
@@ -185,19 +193,34 @@ class _createCoursePageState extends State<CreateCoursePage> {
               height: 24,
             ),
             addTag(),
+            SizedBox(
+              height: 48,
+            ),
           ],
         ),
       ),
-//      bottomNavigationBar: addButton(),
+      bottomNavigationBar: addButton(),
     );
   }
 
   Widget addButton() {
-    return InkResponse(
-      onTap: () {},
-      child: Container(
-        child: Center(
-          child: Text("등록하기"),
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 24),
+      height: 64,
+      width: 320,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.black,
+          border: Border.all(color: Colors.black12)),
+      child: InkResponse(
+        onTap: () {},
+        child: Container(
+          child: Center(
+            child: Text(
+              "등록하기",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         ),
       ),
     );
@@ -247,23 +270,32 @@ class _createCoursePageState extends State<CreateCoursePage> {
 
   Future<List<String>> testii() async {
 //    _tagList = await
+    _tagList.add("맛");
     _tagList.add("맛집");
+    _tagList.add("맛집입");
+    _tagList.add("맛집입니");
+    _tagList.add("맛집입니다");
     _tagList.add("카페");
   }
 
   Widget addTag() {
-    return TagEditor(
-      length: _tagList.length,
-      tagBuilder: (context, index) => _Chip(
-        index: index,
-        label: _tagList[index],
-        onDeleted: _onDelete(index),
-      ),
+    return Container(
+      padding: EdgeInsets.only(left: 24),
+      child: TagEditor(
+        resetTextOnSubmitted: false,
+        hasAddButton: false,
+        length: _tagList.length,
+        tagBuilder: (context, index) => _Chip(
+          index: index,
+          label: _tagList[index],
+//        onDeleted: _onDelete(index),
+        ),
 //              onTagChanged: () {
 //                setState(() {
 //                  _tagList.add("");
 //                });
 //              },
+      ),
     );
   }
 

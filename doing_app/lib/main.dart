@@ -2,6 +2,7 @@ import 'package:doing_app/screen/community/screen/community_page.dart';
 import 'package:doing_app/screen/main/screen/main_page.dart';
 import 'package:doing_app/screen/recommend/screen/recommend_page.dart';
 import 'package:doing_app/screen/setting/screen/setting_page.dart';
+import 'package:doing_app/screen/sign/screen/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttericon/web_symbols_icons.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: StartPage(),
     );
   }
 }
