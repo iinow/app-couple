@@ -1,23 +1,32 @@
 import 'package:doing_app/screen/community/screen/community_page.dart';
 import 'package:doing_app/screen/main/screen/main_page.dart';
 import 'package:doing_app/screen/recommend/screen/recommend_page.dart';
+import 'package:doing_app/screen/setting/screen/setting_page.dart';
+import 'package:doing_app/screen/sign/screen/start_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:fluttericon/web_symbols_icons.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [const Locale('ko', 'KR')],
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: StartPage(),
     );
   }
 }
@@ -37,22 +46,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   PageStorageBucket bucket = PageStorageBucket();
 
-  get pages => [MainPage(), RecommendPage(), CommunityPage()];
+  get pages => [MainPage(), RecommendPage(), CommunityPage(), SettingPage()];
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
       body: PageStorage(
         child: pages[currentPageIndex],
         bucket: bucket,
@@ -105,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   title: Text(
-                    "메인",
+                    "",
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -116,11 +114,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       minHeight: 0,
                       maxWidth: MediaQuery.of(context).size.width,
                       maxHeight: 1000,
-                      child: const Icon(Icons.recommend, size: 28),
+                      child: const Icon(Icons.star_border, size: 28),
                     ),
                   ),
                   title: Text(
-                    "추천",
+                    "",
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -131,11 +129,26 @@ class _MyHomePageState extends State<MyHomePage> {
                       minHeight: 0,
                       maxWidth: MediaQuery.of(context).size.width,
                       maxHeight: 1000,
-                      child: const Icon(Icons.commute, size: 28),
+                      child: const Icon(WebSymbols.comment, size: 28),
                     ),
                   ),
                   title: Text(
-                    "커뮤니티",
+                    "",
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  icon: Container(
+                    height: 20,
+                    child: OverflowBox(
+                      minWidth: 0,
+                      minHeight: 0,
+                      maxWidth: MediaQuery.of(context).size.width,
+                      maxHeight: 1000,
+                      child: const Icon(Icons.settings, size: 28),
+                    ),
+                  ),
+                  title: Text(
+                    "",
                   ),
                 ),
               ],
