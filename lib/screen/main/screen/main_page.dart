@@ -27,7 +27,7 @@ class _MainPageState extends State<MainPage> {
       body: Container(
         color: Colors.white,
         child: SingleChildScrollView(
-          child: _noneCouse(),
+          child: _noneCouse(context),
         ),
       ),
     );
@@ -77,9 +77,8 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
-}
 
-  Widget _noneCouse() {
+  Widget _noneCouse(BuildContext context) {
     return Column(
       children: [
         SizedBox(
