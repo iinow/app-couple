@@ -35,9 +35,11 @@ class _startPageState extends State<StartPage> {
               ),
             ),
             //일러스트
-            Container(
-              padding: EdgeInsets.only(bottom: 48),
-              child: SvgPicture.asset("assets/svgs/start_illust.svg"),
+            Semantics(
+              child: Container(
+                padding: EdgeInsets.only(bottom: 48),
+                child: SvgPicture.asset("assets/svgs/start_illust.svg"),
+              ),
             ),
             //회원가입 Provider 리스트
             Container(
@@ -80,7 +82,6 @@ class _startPageState extends State<StartPage> {
                   ),
                   Container(
                     padding: EdgeInsets.only(
-                      top: 12,
                       bottom: 11,
                     ),
                     alignment: Alignment.center,
