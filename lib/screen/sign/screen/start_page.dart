@@ -78,13 +78,12 @@ class _startPageState extends State<StartPage> {
                     child: SvgPicture.asset(
                       "assets/svgs/start_desc.svg",
                       alignment: Alignment.center,
+                      height: 49,
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(
-                      bottom: 11,
-                    ),
                     alignment: Alignment.center,
+                    height: 49,
                     child: Text(
                       "${Emojis.smilingFace} 3초만에 빠른 회원가입!",
                       style: TextStyle(
