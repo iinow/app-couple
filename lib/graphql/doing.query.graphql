@@ -17,3 +17,9 @@ mutation SignUp($signUpInput: SignUpInput!) {
     nickName
   }
 }
+
+query ExistNickName($existNickNameInput: ExistNickNameInput!) {
+  existNickName(existNickNameInput: $existNickNameInput) {
+    exist
+  }
+}

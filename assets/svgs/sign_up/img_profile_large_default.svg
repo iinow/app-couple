@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+    <defs>
+        <filter id="pdgbaeql1a" width="292.5%" height="292.5%" x="-96.2%" y="-96.2%" filterUnits="objectBoundingBox">
+            <feOffset dy="20" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="10"/>
+            <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0.0862745098 0 0 0 0 0.0941176471 0 0 0 0 0.117647059 0 0 0 0.1 0"/>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        <rect id="mlv8szmpab" width="80" height="80" x="0" y="0" rx="24"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g filter="url(#pdgbaeql1a)" transform="translate(-140 -133) translate(140 133)">
+                    <use fill="#D8D8D8" xlink:href="#mlv8szmpab"/>
+                </g>
+                <g fill="#000" opacity=".222">
+                    <path d="M24 9c-2.485 0-4.5-2.015-4.5-4.5S21.515 0 24 0s4.5 2.015 4.5 4.5S26.485 9 24 9zM4.5 9C2.015 9 0 6.985 0 4.5S2.015 0 4.5 0 9 2.015 9 4.5 6.985 9 4.5 9zM26.748 16.848c.992.618 1.304 1.912.68 2.896C24.538 24.272 19.635 27 14.25 27c-5.385 0-10.287-2.7-13.178-7.284-.624-.984-.312-2.278.68-2.897.992-.618 2.296-.309 2.92.675 2.096 3.319 5.667 5.288 9.578 5.288 3.91 0 7.482-1.97 9.579-5.26.595-.984 1.927-1.293 2.919-.674z" transform="translate(-140 -133) translate(140 133) translate(26 27)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,109 +1,430 @@
-directive @specifiedBy(url: String!) on SCALAR
-type Course {
-  title: String!
+# Exposes a URL that specifies the behaviour of this scalar.
+directive @specifiedBy(
+  # The URL that specifies the behaviour of this scalar.
+  url: String!
+) on SCALAR
+type Comment {
+  # 댓글 ID
+  _id: String!
+  # 부모 ID
+  parentId: String!
+  # 부모 타입
+  parentType: LikeType!
+  # 댓글 내용
   content: String!
+  # like 리스트
+  likes: [Like!]!
+  # 코멘트 리스트
+  replyComments: [Comment!]!
+  # 대상자
+  targetUser: User
+  # 등록자
   registerUser: User!
+  # 등록날짜
   createdAt: DateTime!
+  # 수정날짜
   updatedAt: DateTime!
 }
 
-input CreateCourseInput {
+type Community {
+  # 게시글 ID
+  _id: String!
+  # 게시글 타입
+  postType: PostType!
+  # like 리스트
+  likes: [Like!]!
+  # 댓글 리스트
+  comments: [Comment!]!
+  # 태그 리스트
+  tags: [Tag!]!
+  # 등록자
+  registerUser: User!
+  # 등록날짜
+  createdAt: DateTime!
+  # 수정날짜
+  updatedAt: DateTime!
+  # 게시글 내용
+  content: String!
+  # 게시글 타입
+  communityType: CommunityType!
+  # 게시글 이미지 URL 리스트
+  imageUrls: [String!]
+}
+
+type CommunityOutput {
+  # 게시글 ID
+  _id: String!
+  # 게시글 타입
+  postType: PostType!
+  # 등록자
+  registerUser: User!
+  # 등록날짜
+  createdAt: DateTime!
+  # 수정날짜
+  updatedAt: DateTime!
+  # 게시글 내용
+  content: String!
+  # 게시글 타입
+  communityType: CommunityType!
+  # 게시글 이미지 URL 리스트
+  imageUrls: [String!]
+  # 태그 리스트
+  tags: [String!]!
+  # 댓글 개수
+  cntComment: Int!
+  # 좋아요 개수
+  cntLike: Int!
+}
+
+type CommunityOutputPageInfo {
+  startCursor: String
+  endCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+}
+
+# 커뮤니티 게시판 타입
+enum CommunityType {
+  FREE
+  WORRY
+}
+
+type Course {
+  # 게시글 ID
+  _id: String!
+  # 게시글 타입
+  postType: PostType!
+  # like 리스트
+  likes: [Like!]!
+  # 댓글 리스트
+  comments: [Comment!]!
+  # 태그 리스트
+  tags: [Tag!]!
+  # 등록자
+  registerUser: User!
+  # 등록날짜
+  createdAt: DateTime!
+  # 수정날짜
+  updatedAt: DateTime!
+  # 제목
   title: String!
+  # 커버 이미지 URL 리스트
+  coverUrls: [String!]!
+  # 시작 날짜
+  startedAt: DateTime!
+  # 소요 시간(분)
+  takeMinutes: String!
+  # 소요 비용
+  takeCharge: String!
+}
+
+type CourseOutput {
+  # 게시글 ID
+  _id: String!
+  # 게시글 타입
+  postType: PostType!
+  # 등록자
+  registerUser: User!
+  # 등록날짜
+  createdAt: DateTime!
+  # 수정날짜
+  updatedAt: DateTime!
+  # 제목
+  title: String!
+  # 커버 이미지 URL 리스트
+  coverUrls: [String!]!
+  # 시작 날짜
+  startedAt: DateTime!
+  # 소요 시간(분)
+  takeMinutes: String!
+  # 소요 비용
+  takeCharge: String!
+  # 태그 리스트
+  tags: [String!]!
+  # 댓글 개수
+  cntComment: Int!
+  # 좋아요 개수
+  cntLike: Int!
+}
+
+type CourseOutputPageInfo {
+  startCursor: String
+  endCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+}
+
+input CreateCommentInput {
+  # 부모 ID
+  parentId: String!
+  # 부모 타입
+  parentType: LikeType!
+  # 댓글 내용
   content: String!
 }
 
+input CreateCommunityInput {
+  # 게시글 내용
+  content: String!
+  # 게시글 타입
+  communityType: CommunityType!
+  # 게시글 이미지 URL 리스트
+  imageUrls: [String!] = []
+  # 태그 리스트
+  tagNames: [String!] = []
+}
+
+input CreateCourseInput {
+  # 제목
+  title: String!
+  # 커버 이미지 URL 리스트
+  coverUrls: [String!] = []
+  # 시작 날짜
+  startedAt: DateTime!
+  # 소요 시간(분)
+  takeMinutes: Int!
+  # 소요 비용
+  takeCharge: Int!
+  # 태그 리스트
+  tagNames: [String!] = []
+}
+
+input CreateLikeInput {
+  # Parent Type
+  parentType: LikeType!
+  # 부모 ID
+  parentId: String!
+}
+
+input CreateReplyCommentInput {
+  # 댓글 내용
+  content: String!
+  # 코멘트 ID
+  commentId: String!
+}
+
+# A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 scalar DateTime
 
-type Device {
-  os: OS!
-  model: String!
-  version: String!
+input ExistNickNameInput {
+  # 닉네임
+  nickName: String!
+}
+
+type ExistNickNameOutput {
+  # 닉네임 존재 여부
+  exist: Boolean!
+}
+
+type FileListOut {
+  # 내용물
+  content: String!
+}
+
+type Like {
+  # Like Type
+  _id: String!
+  # Parent Type
+  parentType: LikeType!
+  # 등록자
+  registerUser: User!
+  # 등록날짜
+  createdAt: DateTime!
+}
+
+# Like Type..
+enum LikeType {
+  COURSE
+  COMMUNITY
+  COMMENT
 }
 
 type Me {
   uuid: String!
+  # 닉네임
   nickName: String!
 }
 
 type Mutation {
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(updateCourseInput: UpdateCourseInput!): Course!
   removeCourse(id: Int!): Course!
+  # 로그인
   signIn(signInInput: SignInInput!): SignInOutput!
+  # 회원가입
   signUp(signUpInput: SignUpInput!): Me!
+  createLike(createLikeInput: CreateLikeInput!): Boolean!
+  removeLike(id: String!): Boolean!
+  createCommunity(createCommunityInput: CreateCommunityInput!): Community!
+  # 댓글 작성
+  createComment(createCommentInput: CreateCommentInput!): Boolean!
+  # 대댓글 작성
+  createReplyComment(
+    createReplyCommentInput: CreateReplyCommentInput!
+  ): Boolean!
+  # 댓글 내용 수정
+  updateComment(updateCommentInput: UpdateCommentInput!): Boolean!
+  # 댓글 내용 삭제
+  removeComment(commentId: String!): Boolean!
 }
 
+# 운영체제
 enum OS {
   IOS
   ANDROID
 }
 
+type OtpOutput {
+  # 일회용 비밀번호
+  value: String!
+}
+
+type PaginatedCommunity {
+  nodes: [CommunityOutput!]
+  pageInfo: CommunityOutputPageInfo
+}
+
+type PaginatedCourse {
+  nodes: [CourseOutput!]
+  pageInfo: CourseOutputPageInfo
+}
+
+type PaginatedUser {
+  nodes: [User!]
+  pageInfo: UserPageInfo
+}
+
+# 게시글 타입..
+enum PostType {
+  COURSE
+  COMMUNITY
+}
+
+# 회원가입시 provider
 enum Provider {
   GOOGLE
   KAKAO
 }
 
 type Query {
-  users: [User!]!
-  user(id: Int!): User!
-  courseList: [Course!]!
+  users(next: Int = 10, after: String, before: String): PaginatedUser!
+  courses(next: Int = 10, after: String, before: String): PaginatedCourse!
   course(id: Int!): Course!
+  tag: [Tag!]!
+  # 자기 정보 가져오기
   me: Me!
+  # 닉네임 존재 여부 확인
+  existNickName(existNickNameInput: ExistNickNameInput!): ExistNickNameOutput!
+  # 일회용 비밀번호
+  otp: OtpOutput!
+  findObject: FileListOut!
+  communities(
+    next: Int = 10
+    after: String
+    before: String
+  ): PaginatedCommunity!
+  community(id: String!): Community!
+  # 댓글 조회
+  comments(uuid: String!): [Comment!]!
 }
 
+# 권한
 enum Role {
   ADMIN
   USER
   GUEST
 }
 
+input SignInDeviceInput {
+  # Ios/Android
+  os: OS!
+  # 기기 정보
+  model: String!
+  # 버전 정보
+  version: String!
+}
+
 input SignInInput {
   email: String!
   provider: Provider!
+  # 장비 정보
+  device: SignInDeviceInput
 }
 
 type SignInOutput {
+  # jwt token
   accessToken: String!
-}
-
-input SignUpDeviceInput {
-  os: OS!
-  model: String!
-  version: String!
 }
 
 input SignUpInput {
   email: String!
   provider: Provider!
+  # 이름
   name: String!
+  # 닉네임
   nickName: String!
-  photoUrl: String!
-  device: SignUpDeviceInput!
+  # 프로필 이미지 url
+  profileImageUrl: String!
+}
+
+type Subscription {
+  newCourse: Course!
+}
+
+type Tag {
+  # Tag ID
+  _id: String!
+  # Tag 이름
+  name: String!
+}
+
+input UpdateCommentInput {
+  commentId: String = "댓글 수정할 ID"
+  # 댓글 수정 내용
+  content: String!
 }
 
 input UpdateCourseInput {
+  # 제목
   title: String
-  content: String
-  id: Int!
-}
-
-input UpdateUserInput {
-  exampleField: Int
+  # 커버 이미지 URL 리스트
+  coverUrls: [String!] = []
+  # 시작 날짜
+  startedAt: DateTime
+  # 소요 시간(분)
+  takeMinutes: Int
+  # 소요 비용
+  takeCharge: Int
+  # 태그 리스트
+  tagNames: [String!] = []
   id: Int!
 }
 
 type User {
+  # uuid
   uuid: String!
+  # 이름
   name: String!
+  # 닉네임
   nickName: String!
+  # 이메일
   email: String!
-  photoUrl: String!
+  # 프로필 이미지 url
+  profileImageUrl: String!
+  # provider
   provider: Provider!
+  # 권한
   role: Role!
-  device: Device!
+  # 등록날짜
   createdAt: DateTime!
+  # 수정날짜
   updatedAt: DateTime!
+}
+
+type UserPageInfo {
+  startCursor: String
+  endCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
 }
 

@@ -38,11 +38,12 @@ dependencies:
   dotted_border: ^1.0.7
   date_time_picker: ^2.0.0
   material_tag_editor: ^0.1.1
-  artemis: '>=6.0.0 <7.0.0'
+  artemis: '^6.18.3'
   build_runner: ^1.10.4
   json_serializable: ^3.5.0
   flutter_svg: ^0.19.3
   emojis: ^0.8.1
+  environment_config: ^2.2.5
 
 dev_dependencies:
   flutter_test:
@@ -50,7 +51,6 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-  artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
   json_annotation: ^3.1.0
   equatable: ^1.2.5
   meta: '>=1.0.0 <2.0.0' # only if you have non nullable fields
@@ -67,6 +67,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svgs/
+    - assets/svgs/sign_up/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

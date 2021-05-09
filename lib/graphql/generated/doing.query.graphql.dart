@@ -66,8 +66,28 @@ class SignIn$Mutation with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class SignInDeviceInput with EquatableMixin {
+  SignInDeviceInput(
+      {@required this.os, @required this.model, @required this.version});
+
+  factory SignInDeviceInput.fromJson(Map<String, dynamic> json) =>
+      _$SignInDeviceInputFromJson(json);
+
+  @JsonKey(unknownEnumValue: Os.artemisUnknown)
+  Os os;
+
+  String model;
+
+  String version;
+
+  @override
+  List<Object> get props => [os, model, version];
+  Map<String, dynamic> toJson() => _$SignInDeviceInputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class SignInInput with EquatableMixin {
-  SignInInput({@required this.email, @required this.provider});
+  SignInInput({@required this.email, @required this.provider, this.device});
 
   factory SignInInput.fromJson(Map<String, dynamic> json) =>
       _$SignInInputFromJson(json);
@@ -77,8 +97,10 @@ class SignInInput with EquatableMixin {
   @JsonKey(unknownEnumValue: Provider.artemisUnknown)
   Provider provider;
 
+  SignInDeviceInput device;
+
   @override
-  List<Object> get props => [email, provider];
+  List<Object> get props => [email, provider, device];
   Map<String, dynamic> toJson() => _$SignInInputToJson(this);
 }
 
@@ -113,34 +135,13 @@ class SignUp$Mutation with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SignUpDeviceInput with EquatableMixin {
-  SignUpDeviceInput(
-      {@required this.os, @required this.model, @required this.version});
-
-  factory SignUpDeviceInput.fromJson(Map<String, dynamic> json) =>
-      _$SignUpDeviceInputFromJson(json);
-
-  @JsonKey(unknownEnumValue: Os.artemisUnknown)
-  Os os;
-
-  String model;
-
-  String version;
-
-  @override
-  List<Object> get props => [os, model, version];
-  Map<String, dynamic> toJson() => _$SignUpDeviceInputToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class SignUpInput with EquatableMixin {
   SignUpInput(
       {@required this.email,
       @required this.provider,
       @required this.name,
       @required this.nickName,
-      @required this.photoUrl,
-      @required this.device});
+      @required this.profileImageUrl});
 
   factory SignUpInput.fromJson(Map<String, dynamic> json) =>
       _$SignUpInputFromJson(json);
@@ -154,28 +155,70 @@ class SignUpInput with EquatableMixin {
 
   String nickName;
 
-  String photoUrl;
-
-  SignUpDeviceInput device;
+  String profileImageUrl;
 
   @override
-  List<Object> get props => [email, provider, name, nickName, photoUrl, device];
+  List<Object> get props => [email, provider, name, nickName, profileImageUrl];
   Map<String, dynamic> toJson() => _$SignUpInputToJson(this);
 }
 
-enum Provider {
-  @JsonValue('GOOGLE')
-  google,
-  @JsonValue('KAKAO')
-  kakao,
-  @JsonValue('ARTEMIS_UNKNOWN')
-  artemisUnknown,
+@JsonSerializable(explicitToJson: true)
+class ExistNickName$Query$ExistNickNameOutput with EquatableMixin {
+  ExistNickName$Query$ExistNickNameOutput();
+
+  factory ExistNickName$Query$ExistNickNameOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$ExistNickName$Query$ExistNickNameOutputFromJson(json);
+
+  bool exist;
+
+  @override
+  List<Object> get props => [exist];
+  Map<String, dynamic> toJson() =>
+      _$ExistNickName$Query$ExistNickNameOutputToJson(this);
 }
+
+@JsonSerializable(explicitToJson: true)
+class ExistNickName$Query with EquatableMixin {
+  ExistNickName$Query();
+
+  factory ExistNickName$Query.fromJson(Map<String, dynamic> json) =>
+      _$ExistNickName$QueryFromJson(json);
+
+  ExistNickName$Query$ExistNickNameOutput existNickName;
+
+  @override
+  List<Object> get props => [existNickName];
+  Map<String, dynamic> toJson() => _$ExistNickName$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ExistNickNameInput with EquatableMixin {
+  ExistNickNameInput({@required this.nickName});
+
+  factory ExistNickNameInput.fromJson(Map<String, dynamic> json) =>
+      _$ExistNickNameInputFromJson(json);
+
+  String nickName;
+
+  @override
+  List<Object> get props => [nickName];
+  Map<String, dynamic> toJson() => _$ExistNickNameInputToJson(this);
+}
+
 enum Os {
   @JsonValue('IOS')
   ios,
   @JsonValue('ANDROID')
   android,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+enum Provider {
+  @JsonValue('GOOGLE')
+  google,
+  @JsonValue('KAKAO')
+  kakao,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
@@ -360,4 +403,74 @@ class SignUpMutation extends GraphQLQuery<SignUp$Mutation, SignUpArguments> {
   @override
   SignUp$Mutation parse(Map<String, dynamic> json) =>
       SignUp$Mutation.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ExistNickNameArguments extends JsonSerializable with EquatableMixin {
+  ExistNickNameArguments({@required this.existNickNameInput});
+
+  @override
+  factory ExistNickNameArguments.fromJson(Map<String, dynamic> json) =>
+      _$ExistNickNameArgumentsFromJson(json);
+
+  final ExistNickNameInput existNickNameInput;
+
+  @override
+  List<Object> get props => [existNickNameInput];
+  @override
+  Map<String, dynamic> toJson() => _$ExistNickNameArgumentsToJson(this);
+}
+
+class ExistNickNameQuery
+    extends GraphQLQuery<ExistNickName$Query, ExistNickNameArguments> {
+  ExistNickNameQuery({this.variables});
+
+  @override
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'ExistNickName'),
+        variableDefinitions: [
+          VariableDefinitionNode(
+              variable:
+                  VariableNode(name: NameNode(value: 'existNickNameInput')),
+              type: NamedTypeNode(
+                  name: NameNode(value: 'ExistNickNameInput'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: [])
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'existNickName'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'existNickNameInput'),
+                    value: VariableNode(
+                        name: NameNode(value: 'existNickNameInput')))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'exist'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ]))
+        ]))
+  ]);
+
+  @override
+  final String operationName = 'ExistNickName';
+
+  @override
+  final ExistNickNameArguments variables;
+
+  @override
+  List<Object> get props => [document, operationName, variables];
+  @override
+  ExistNickName$Query parse(Map<String, dynamic> json) =>
+      ExistNickName$Query.fromJson(json);
 }

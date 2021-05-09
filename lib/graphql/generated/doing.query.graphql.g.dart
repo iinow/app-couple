@@ -55,18 +55,20 @@ Map<String, dynamic> _$SignIn$MutationToJson(SignIn$Mutation instance) =>
       'signIn': instance.signIn?.toJson(),
     };
 
-SignInInput _$SignInInputFromJson(Map<String, dynamic> json) {
-  return SignInInput(
-    email: json['email'] as String,
-    provider: _$enumDecodeNullable(_$ProviderEnumMap, json['provider'],
-        unknownValue: Provider.artemisUnknown),
+SignInDeviceInput _$SignInDeviceInputFromJson(Map<String, dynamic> json) {
+  return SignInDeviceInput(
+    os: _$enumDecodeNullable(_$OsEnumMap, json['os'],
+        unknownValue: Os.artemisUnknown),
+    model: json['model'] as String,
+    version: json['version'] as String,
   );
 }
 
-Map<String, dynamic> _$SignInInputToJson(SignInInput instance) =>
+Map<String, dynamic> _$SignInDeviceInputToJson(SignInDeviceInput instance) =>
     <String, dynamic>{
-      'email': instance.email,
-      'provider': _$ProviderEnumMap[instance.provider],
+      'os': _$OsEnumMap[instance.os],
+      'model': instance.model,
+      'version': instance.version,
     };
 
 T _$enumDecode<T>(
@@ -101,6 +103,30 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
+const _$OsEnumMap = {
+  Os.ios: 'IOS',
+  Os.android: 'ANDROID',
+  Os.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+SignInInput _$SignInInputFromJson(Map<String, dynamic> json) {
+  return SignInInput(
+    email: json['email'] as String,
+    provider: _$enumDecodeNullable(_$ProviderEnumMap, json['provider'],
+        unknownValue: Provider.artemisUnknown),
+    device: json['device'] == null
+        ? null
+        : SignInDeviceInput.fromJson(json['device'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$SignInInputToJson(SignInInput instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'provider': _$ProviderEnumMap[instance.provider],
+      'device': instance.device?.toJson(),
+    };
+
 const _$ProviderEnumMap = {
   Provider.google: 'GOOGLE',
   Provider.kakao: 'KAKAO',
@@ -131,28 +157,6 @@ Map<String, dynamic> _$SignUp$MutationToJson(SignUp$Mutation instance) =>
       'signUp': instance.signUp?.toJson(),
     };
 
-SignUpDeviceInput _$SignUpDeviceInputFromJson(Map<String, dynamic> json) {
-  return SignUpDeviceInput(
-    os: _$enumDecodeNullable(_$OsEnumMap, json['os'],
-        unknownValue: Os.artemisUnknown),
-    model: json['model'] as String,
-    version: json['version'] as String,
-  );
-}
-
-Map<String, dynamic> _$SignUpDeviceInputToJson(SignUpDeviceInput instance) =>
-    <String, dynamic>{
-      'os': _$OsEnumMap[instance.os],
-      'model': instance.model,
-      'version': instance.version,
-    };
-
-const _$OsEnumMap = {
-  Os.ios: 'IOS',
-  Os.android: 'ANDROID',
-  Os.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
 SignUpInput _$SignUpInputFromJson(Map<String, dynamic> json) {
   return SignUpInput(
     email: json['email'] as String,
@@ -160,10 +164,7 @@ SignUpInput _$SignUpInputFromJson(Map<String, dynamic> json) {
         unknownValue: Provider.artemisUnknown),
     name: json['name'] as String,
     nickName: json['nickName'] as String,
-    photoUrl: json['photoUrl'] as String,
-    device: json['device'] == null
-        ? null
-        : SignUpDeviceInput.fromJson(json['device'] as Map<String, dynamic>),
+    profileImageUrl: json['profileImageUrl'] as String,
   );
 }
 
@@ -173,8 +174,45 @@ Map<String, dynamic> _$SignUpInputToJson(SignUpInput instance) =>
       'provider': _$ProviderEnumMap[instance.provider],
       'name': instance.name,
       'nickName': instance.nickName,
-      'photoUrl': instance.photoUrl,
-      'device': instance.device?.toJson(),
+      'profileImageUrl': instance.profileImageUrl,
+    };
+
+ExistNickName$Query$ExistNickNameOutput
+    _$ExistNickName$Query$ExistNickNameOutputFromJson(
+        Map<String, dynamic> json) {
+  return ExistNickName$Query$ExistNickNameOutput()
+    ..exist = json['exist'] as bool;
+}
+
+Map<String, dynamic> _$ExistNickName$Query$ExistNickNameOutputToJson(
+        ExistNickName$Query$ExistNickNameOutput instance) =>
+    <String, dynamic>{
+      'exist': instance.exist,
+    };
+
+ExistNickName$Query _$ExistNickName$QueryFromJson(Map<String, dynamic> json) {
+  return ExistNickName$Query()
+    ..existNickName = json['existNickName'] == null
+        ? null
+        : ExistNickName$Query$ExistNickNameOutput.fromJson(
+            json['existNickName'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$ExistNickName$QueryToJson(
+        ExistNickName$Query instance) =>
+    <String, dynamic>{
+      'existNickName': instance.existNickName?.toJson(),
+    };
+
+ExistNickNameInput _$ExistNickNameInputFromJson(Map<String, dynamic> json) {
+  return ExistNickNameInput(
+    nickName: json['nickName'] as String,
+  );
+}
+
+Map<String, dynamic> _$ExistNickNameInputToJson(ExistNickNameInput instance) =>
+    <String, dynamic>{
+      'nickName': instance.nickName,
     };
 
 SignInArguments _$SignInArgumentsFromJson(Map<String, dynamic> json) {
@@ -201,4 +239,20 @@ SignUpArguments _$SignUpArgumentsFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$SignUpArgumentsToJson(SignUpArguments instance) =>
     <String, dynamic>{
       'signUpInput': instance.signUpInput?.toJson(),
+    };
+
+ExistNickNameArguments _$ExistNickNameArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return ExistNickNameArguments(
+    existNickNameInput: json['existNickNameInput'] == null
+        ? null
+        : ExistNickNameInput.fromJson(
+            json['existNickNameInput'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ExistNickNameArgumentsToJson(
+        ExistNickNameArguments instance) =>
+    <String, dynamic>{
+      'existNickNameInput': instance.existNickNameInput?.toJson(),
     };
