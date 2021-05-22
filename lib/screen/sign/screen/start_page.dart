@@ -3,6 +3,7 @@ import 'package:doing_app/screen/sign/screen/sign_up_page.dart';
 import 'package:emojis/emojis.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_svg/svg.dart';
 
 class StartPage extends StatefulWidget {
@@ -19,7 +20,10 @@ class _startPageState extends State<StartPage> {
           children: [
             //헤더 설명
             Container(
-              padding: EdgeInsets.only(top: 83, bottom: 32),
+              padding: EdgeInsets.only(
+                top: ScreenUtil().setHeight(83),
+                bottom: ScreenUtil().setHeight(32),
+              ),
               child: Column(
                 children: [
                   textSpace(text: "간편한 회원가입으로"),
@@ -37,13 +41,17 @@ class _startPageState extends State<StartPage> {
             //일러스트
             Semantics(
               child: Container(
-                padding: EdgeInsets.only(bottom: 48),
-                child: SvgPicture.asset("assets/svgs/start_illust.svg"),
+                padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(48)),
+                child: SvgPicture.asset(
+                  "assets/svgs/start_illust.svg",
+                  height: ScreenUtil().setHeight(297),
+                  width: ScreenUtil().setWidth(227),
+                ),
               ),
             ),
             //회원가입 Provider 리스트
             Container(
-              margin: EdgeInsets.only(bottom: 14),
+              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(14)),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -78,16 +86,17 @@ class _startPageState extends State<StartPage> {
                     child: SvgPicture.asset(
                       "assets/svgs/start_desc.svg",
                       alignment: Alignment.center,
-                      height: 49,
+                      height: ScreenUtil().setHeight(49),
                     ),
                   ),
                   Container(
                     alignment: Alignment.center,
-                    height: 49,
+                    height: ScreenUtil().setHeight(49),
                     child: Text(
                       "${Emojis.smilingFace} 3초만에 빠른 회원가입!",
                       style: TextStyle(
                         color: Colors.white,
+                        fontSize: ScreenUtil().setSp(14),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -105,10 +114,15 @@ class _startPageState extends State<StartPage> {
     return InkResponse(
       onTap: onTap,
       child: Container(
-        width: 64,
-        height: 64,
-        margin: EdgeInsets.only(right: 8, left: 8),
-        padding: EdgeInsets.all(14),
+        width: ScreenUtil().setHeight(64),
+        height: ScreenUtil().setHeight(64),
+        margin: EdgeInsets.only(
+          right: ScreenUtil().setWidth(8),
+          left: ScreenUtil().setWidth(8),
+        ),
+        padding: EdgeInsets.all(
+          ScreenUtil().setHeight(16),
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -136,7 +150,7 @@ class _startPageState extends State<StartPage> {
             child: Text(
               text ?? "",
               style: TextStyle(
-                  fontSize: 20,
+                  fontSize: ScreenUtil().setSp(20),
                   height: 1.4,
                   color: color ?? Colors.black,
                   fontWeight: fontWeight ?? FontWeight.normal),

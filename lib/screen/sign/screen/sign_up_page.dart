@@ -6,6 +6,7 @@ import 'package:doing_app/graphql/generated/doing.query.dart';
 import 'package:doing_app/screen/sign/screen/sign_up_succes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -47,7 +48,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Container(
       alignment: Alignment.center,
       child: Container(
-        width: 312,
+        width: ScreenUtil().setWidth(312),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,11 +56,11 @@ class _SignUpPageState extends State<SignUpPage> {
             formProfileImage(),
             formDuplicateUserNickName(),
             line(
-              margin: EdgeInsets.only(top: 24),
+              margin: EdgeInsets.only(top: ScreenUtil().setHeight(24)),
               color: HexColor.fromHex("#eeeeee"),
             ),
             SizedBox(
-              height: 24,
+              height: ScreenUtil().setHeight(24),
             ),
             formAgree(
                 this.checkAll,
@@ -68,11 +69,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 this.checkCollectPersonalInformation,
                 this.checkMarketingUtilization),
             SizedBox(
-              height: 44,
+              height: ScreenUtil().setHeight(44),
             ),
             btnRegistration(onTap: () {
-              print("dkdjkd");
+              print("dkdjkd ${ScreenUtil().screenHeight}");
             }),
+            SizedBox(
+              height: ScreenUtil().setHeight(40),
+            ),
             // checkAgree(checkAge, "[필수] 만 14세 이상입니다."),
             // checkAgree(checkTermsAndConditions, "[필수] 이용 약관 동의"),
             // checkAgree(checkCollectPersonalInformation, "[필수] 개인정보 수집 및 이용 동의"),
@@ -85,16 +89,19 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget formProfileImage() {
     return Container(
-      padding: EdgeInsets.only(top: 133, bottom: 47),
+      padding: EdgeInsets.only(
+        top: ScreenUtil().setHeight(133),
+        bottom: ScreenUtil().setHeight(47),
+      ),
       child: LayoutBuilder(
         builder: (context, contraints) {
-          return Stack(
-            clipBehavior: Clip.none,
-            alignment: AlignmentDirectional.center,
-            children: [
-              Center(
-                child: Container(
-                  width: 80,
+          return Center(
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: AlignmentDirectional.center,
+              children: [
+                Container(
+                  width: ScreenUtil().setWidth(80),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
@@ -110,25 +117,28 @@ class _SignUpPageState extends State<SignUpPage> {
                   alignment: Alignment.center,
                   child: SvgPicture.asset(
                     "assets/svgs/sign_up/img_profile_large_default.svg",
-                    height: 80,
-                    width: 80,
+                    height: ScreenUtil().setHeight(80),
+                    width: ScreenUtil().setWidth(80),
                   ),
                 ),
-              ),
-              Positioned(
-                // bottom: 0,
-                right: contraints.constrainWidth() / 2 - 80,
-                top: 50,
-                child: InkWell(
-                  onTap: () {
-                    print("앨범, 카메라 열기");
-                  },
-                  child: Container(
-                    child: Image.asset("assets/images/ico_camera.png"),
+                Positioned(
+                  right: ScreenUtil().setWidth(-30),
+                  bottom: ScreenUtil().setWidth(-40),
+                  child: InkWell(
+                    onTap: () {
+                      print("앨범, 카메라 열기");
+                    },
+                    child: Container(
+                      child: Image.asset(
+                        "assets/images/ico_camera.png",
+                        height: ScreenUtil().setHeight(80),
+                        width: ScreenUtil().setWidth(80),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
@@ -141,18 +151,18 @@ class _SignUpPageState extends State<SignUpPage> {
         children: [
           Container(
             alignment: Alignment.centerLeft,
-            height: 24,
+            height: ScreenUtil().setHeight(24),
             child: Text(
               "사용자 닉네임",
               style: TextStyle(
-                fontSize: 14,
+                fontSize: ScreenUtil().setSp(14),
                 color: HexColor.fromHex("#242424"),
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           SizedBox(
-            height: 7,
+            height: ScreenUtil().setHeight(7),
           ),
           inputDuplicateNickName(),
         ],
@@ -172,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
           boxShadow: [
             BoxShadow(
               color: HexColor.fromHex("#2cff3c3c"),
-              offset: Offset(0, 10),
+              offset: Offset(0, ScreenUtil().setHeight(10)),
               blurRadius: 15,
               spreadRadius: 3,
             ),
@@ -183,13 +193,13 @@ class _SignUpPageState extends State<SignUpPage> {
             colors: [HexColor.fromHex("#ff4f4f"), HexColor.fromHex("#ff2f2f")],
           ),
         ),
-        height: 64,
+        height: ScreenUtil().setHeight(64),
         child: Center(
           child: Text(
             "가입완료",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: ScreenUtil().setSp(16),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -265,19 +275,19 @@ class _SignUpPageState extends State<SignUpPage> {
         children: [
           Container(
             padding: EdgeInsets.only(
-              top: 16,
-              bottom: 16,
+              top: ScreenUtil().setHeight(16),
+              bottom: ScreenUtil().setHeight(16),
             ),
             child: DoCheckbox(
               value: checkAll,
               child: Container(
                 margin: EdgeInsets.only(
-                  left: 8,
+                  left: ScreenUtil().setWidth(8),
                 ),
                 child: Text(
                   "모두 동의하기",
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: ScreenUtil().setSp(14),
                     color: HexColor.fromHex("#242424"),
                     fontWeight: FontWeight.bold,
                   ),
@@ -288,7 +298,7 @@ class _SignUpPageState extends State<SignUpPage> {
           line(
             color: HexColor.fromHex("#222222"),
             margin: EdgeInsets.only(
-              bottom: 8,
+              bottom: ScreenUtil().setHeight(8),
             ),
           ),
           agreeContentItem(
@@ -314,8 +324,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget agreeContentItem({bool value, String title, String link}) {
     return Container(
       padding: EdgeInsets.only(
-        top: 10,
-        bottom: 10,
+        top: ScreenUtil().setHeight(10),
+        bottom: ScreenUtil().setHeight(10),
       ),
       child: Container(
         child: Row(
@@ -328,11 +338,12 @@ class _SignUpPageState extends State<SignUpPage> {
               unselectImage:
                   "assets/svgs/sign_up/buttons_toggle_check_btn_check_unselected.svg",
               child: Container(
-                margin: EdgeInsets.only(left: 8),
+                margin: EdgeInsets.only(left: ScreenUtil().setWidth(8)),
                 child: Text(
                   title,
                   style: TextStyle(
                     color: HexColor.fromHex("#666666"),
+                    fontSize: ScreenUtil().setSp(14),
                   ),
                 ),
               ),
@@ -348,6 +359,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   style: TextStyle(
                     color: HexColor.fromHex("#666666"),
                     decoration: TextDecoration.underline,
+                    fontSize: ScreenUtil().setSp(14),
                   ),
                 ),
               ),
@@ -373,7 +385,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget inputDuplicateNickName() {
     return Container(
-      height: 48,
+      height: ScreenUtil().setHeight(48),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -382,15 +394,19 @@ class _SignUpPageState extends State<SignUpPage> {
         children: [
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(left: 24),
-              child: TextField(
+              height: ScreenUtil().setHeight(34),
+              padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(24),
+              ),
+              child: TextFormField(
                 controller: nickNameTextEditingController,
                 decoration: InputDecoration(
+                  alignLabelWithHint: true,
                   border: InputBorder.none,
-                  hintText: "2자 ~ 10자로 입력해주세요.",
+                  // hintText: "2자 ~ 10자로 입력해주세요.",
                   hintStyle: TextStyle(
                     color: HexColor.fromHex("#bbbbbb"),
-                    fontSize: 14,
+                    fontSize: ScreenUtil().setSp(14),
                   ),
                 ),
               ),
@@ -407,14 +423,17 @@ class _SignUpPageState extends State<SignUpPage> {
                       : null,
                 ),
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(ScreenUtil().setHeight(8)),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(
                         color: HexColor.fromHex("#110f24"),
                       ),
-                      padding:
-                          EdgeInsets.only(top: 6, left: 7, bottom: 6, right: 7),
+                      padding: EdgeInsets.only(
+                          top: ScreenUtil().setHeight(6),
+                          left: ScreenUtil().setWidth(7),
+                          bottom: ScreenUtil().setHeight(6),
+                          right: ScreenUtil().setWidth(7)),
                     ),
                     onPressed: () async {
                       if (nickNameTextEditingController.text.isEmpty) {
@@ -438,7 +457,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Text(
                       "중복확인",
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: ScreenUtil().setSp(14),
                         color: HexColor.fromHex("#110f24"),
                       ),
                     ),
