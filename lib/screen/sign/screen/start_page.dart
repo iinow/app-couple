@@ -21,7 +21,7 @@ class _startPageState extends State<StartPage> {
             //헤더 설명
             Container(
               padding: EdgeInsets.only(
-                top: ScreenUtil().setHeight(83),
+                top: ScreenUtil().setHeight(70),
                 bottom: ScreenUtil().setHeight(32),
               ),
               child: Column(

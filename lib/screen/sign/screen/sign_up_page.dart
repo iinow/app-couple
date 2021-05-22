@@ -4,47 +4,32 @@ import 'package:doing_app/common/widgets/do_check_box.dart';
 import 'package:doing_app/common/widgets/hex_color.dart';
 import 'package:doing_app/graphql/generated/doing.query.dart';
 import 'package:doing_app/screen/sign/screen/sign_up_succes.dart';
+import 'package:doing_app/store/sign_up_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
 
-class SignUpPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController nickNameTextEditingController = TextEditingController();
-  bool checkAll = false;
-  bool checkAge = false;
-  bool checkTermsAndConditions = false;
-  bool checkCollectPersonalInformation = false;
-  bool checkMarketingUtilization = false;
-  bool checkNickName = false;
-
-  @override
-  void initState() {
-    nickNameTextEditingController.addListener(() {
-      print("value: ${nickNameTextEditingController.text}");
-      setState(() {});
-    });
-    super.initState();
-  }
-
+class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final SignUpController signUpController = Get.put(SignUpController());
     return Scaffold(
       backgroundColor: HexColor.fromHex("#f7f7f8"),
       body: Container(
         child: SingleChildScrollView(
-          child: main(),
+          child: main(context, signUpController),
         ),
       ),
     );
   }
 
-  Widget main() {
+  Widget main(
+    BuildContext context,
+    SignUpController signUpController,
+  ) {
     return Container(
       alignment: Alignment.center,
       child: Container(
@@ -54,8 +39,9 @@ class _SignUpPageState extends State<SignUpPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             formProfileImage(),
-            formDuplicateUserNickName(),
+            formDuplicateUserNickName(signUpController),
             line(
+              context,
               margin: EdgeInsets.only(top: ScreenUtil().setHeight(24)),
               color: HexColor.fromHex("#eeeeee"),
             ),
@@ -63,11 +49,12 @@ class _SignUpPageState extends State<SignUpPage> {
               height: ScreenUtil().setHeight(24),
             ),
             formAgree(
-                this.checkAll,
-                this.checkAge,
-                this.checkTermsAndConditions,
-                this.checkCollectPersonalInformation,
-                this.checkMarketingUtilization),
+                context,
+                signUpController.checkAll.value,
+                signUpController.checkAge.value,
+                signUpController.checkTermsAndConditions.value,
+                signUpController.checkCollectPersonalInformation.value,
+                signUpController.checkMarketingUtilization.value),
             SizedBox(
               height: ScreenUtil().setHeight(44),
             ),
@@ -77,10 +64,6 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(
               height: ScreenUtil().setHeight(40),
             ),
-            // checkAgree(checkAge, "[필수] 만 14세 이상입니다."),
-            // checkAgree(checkTermsAndConditions, "[필수] 이용 약관 동의"),
-            // checkAgree(checkCollectPersonalInformation, "[필수] 개인정보 수집 및 이용 동의"),
-            // checkAgree(checkMarketingUtilization, "[필수] 마케팅 이용 수신 동의"),
           ],
         ),
       ),
@@ -145,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget formDuplicateUserNickName() {
+  Widget formDuplicateUserNickName(SignUpController controller) {
     return Container(
       child: Column(
         children: [
@@ -164,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
           SizedBox(
             height: ScreenUtil().setHeight(7),
           ),
-          inputDuplicateNickName(),
+          inputDuplicateNickName(controller),
         ],
       ),
     );
@@ -182,9 +165,9 @@ class _SignUpPageState extends State<SignUpPage> {
           boxShadow: [
             BoxShadow(
               color: HexColor.fromHex("#2cff3c3c"),
-              offset: Offset(0, ScreenUtil().setHeight(10)),
+              offset: Offset(0, ScreenUtil().setHeight(16)),
               blurRadius: 15,
-              spreadRadius: 3,
+              spreadRadius: 5,
             ),
           ],
           gradient: LinearGradient(
@@ -208,62 +191,8 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  // Widget registrationButton() {
-  //   return Container(
-  //     height: 64,
-  //     margin: EdgeInsets.only(left: 12, right: 12, top: 44, bottom: 40),
-  //     decoration: BoxDecoration(
-  //       color: Colors.red,
-  //       borderRadius: BorderRadius.circular(10),
-  //     ),
-  //     child: InkResponse(
-  //       onTap: () {
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute<SignUpSucces>(
-  //               builder: (BuildContext context) => SignUpSucces()),
-  //         );
-  //       },
-  //       child: Center(
-  //         child: Text(
-  //           "가입완료",
-  //           style: TextStyle(color: Colors.white, fontSize: 16),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget checkAgree(bool checkCondition, String text) {
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 12),
-  //     child: Row(
-  //       children: [
-  //         Checkbox(
-  //             value: checkCondition,
-  //             onChanged: (bool value) {
-  //               setState(() {
-  //                 print(value);
-  //                 checkCondition = value;
-  //               });
-  //             }),
-  //         Text(text),
-  //         Expanded(child: Container()),
-  //         Container(
-  //             margin: EdgeInsets.only(right: 24),
-  //             child: InkResponse(
-  //               child: Text(
-  //                 "보기",
-  //                 style: TextStyle(decoration: TextDecoration.underline),
-  //               ),
-  //               onTap: () {},
-  //             )),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget formAgree(
+    BuildContext context,
     bool checkAll,
     bool checkAge,
     bool checkTermsAndConditions,
@@ -296,6 +225,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
           line(
+            context,
             color: HexColor.fromHex("#222222"),
             margin: EdgeInsets.only(
               bottom: ScreenUtil().setHeight(8),
@@ -370,7 +300,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget line({Color color, EdgeInsetsGeometry margin}) {
+  Widget line(BuildContext context, {Color color, EdgeInsetsGeometry margin}) {
     return Container(
       child: Center(
         child: Container(
@@ -383,7 +313,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget inputDuplicateNickName() {
+  Widget inputDuplicateNickName(SignUpController controller) {
     return Container(
       height: ScreenUtil().setHeight(48),
       decoration: BoxDecoration(
@@ -399,11 +329,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 left: ScreenUtil().setWidth(24),
               ),
               child: TextFormField(
-                controller: nickNameTextEditingController,
+                onChanged: controller.handleNickName,
+                textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
                   border: InputBorder.none,
-                  // hintText: "2자 ~ 10자로 입력해주세요.",
+                  hintText: "2자 ~ 10자로 입력해주세요.",
                   hintStyle: TextStyle(
                     color: HexColor.fromHex("#bbbbbb"),
                     fontSize: ScreenUtil().setSp(14),
@@ -416,11 +347,13 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Row(
               children: [
                 Container(
-                  child: this.checkNickName
-                      ? SvgPicture.asset(
-                          "assets/svgs/sign_up/buttons_toggle_check_btn_check_selected.svg",
-                        )
-                      : null,
+                  child: Obx(
+                    () => controller.checkNickName.isTrue
+                        ? SvgPicture.asset(
+                            "assets/svgs/sign_up/buttons_toggle_check_btn_check_selected.svg",
+                          )
+                        : Container(),
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.all(ScreenUtil().setHeight(8)),
@@ -436,7 +369,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           right: ScreenUtil().setWidth(7)),
                     ),
                     onPressed: () async {
-                      if (nickNameTextEditingController.text.isEmpty) {
+                      if (controller.nickName.value.isEmpty) {
+                        controller.checkNickName(false);
                         return;
                       }
                       var client = ArtemisClient(EnvironmentConfig.url);
@@ -444,15 +378,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         ExistNickNameQuery(
                           variables: ExistNickNameArguments(
                             existNickNameInput: ExistNickNameInput(
-                              nickName: nickNameTextEditingController.text,
+                              nickName: controller.nickName.value,
                             ),
                           ),
                         ),
                       );
-                      setState(() {
-                        this.checkNickName = !res.data.existNickName.exist;
-                      });
-                      print(res.data.existNickName.exist);
+                      controller.checkNickName(!res.data.existNickName.exist);
                     },
                     child: Text(
                       "중복확인",
