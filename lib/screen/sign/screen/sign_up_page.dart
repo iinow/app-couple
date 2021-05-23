@@ -8,6 +8,7 @@ import 'package:doing_app/common/widgets/hex_color.dart';
 import 'package:doing_app/graphql/generated/doing.query.dart';
 import 'package:doing_app/screen/sign/screen/sign_up_succes.dart';
 import 'package:doing_app/store/sign_up_controller.dart';
+import 'package:doing_app/support/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
@@ -44,7 +45,7 @@ class SignUpPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             formProfileImage(),
-            formDuplicateUserNickName(signUpController),
+            formDuplicateUserNickName(context, signUpController),
             line(
               context,
               margin: EdgeInsets.only(top: ScreenUtil().setHeight(24)),
@@ -76,6 +77,7 @@ class SignUpPage extends StatelessWidget {
                 );
                 return;
               }
+              Api().callGet();
               print("성공");
             }),
             SizedBox(
@@ -140,6 +142,10 @@ class SignUpPage extends StatelessWidget {
                         return;
                       }
                       Get.find<SignUpController>().imagePath(image.path);
+
+                      var res = await Api().uploadFile(
+                          Get.find<SignUpController>().imagePath.value);
+                      print(res);
                     },
                     child: Container(
                       child: Image.asset(
@@ -158,7 +164,10 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget formDuplicateUserNickName(SignUpController controller) {
+  Widget formDuplicateUserNickName(
+    BuildContext context,
+    SignUpController controller,
+  ) {
     return Container(
       child: Column(
         children: [
@@ -177,7 +186,7 @@ class SignUpPage extends StatelessWidget {
           SizedBox(
             height: ScreenUtil().setHeight(7),
           ),
-          inputDuplicateNickName(controller),
+          inputDuplicateNickName(context, controller),
         ],
       ),
     );
@@ -341,7 +350,10 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget inputDuplicateNickName(SignUpController controller) {
+  Widget inputDuplicateNickName(
+    BuildContext context,
+    SignUpController controller,
+  ) {
     return Container(
       height: ScreenUtil().setHeight(48),
       decoration: BoxDecoration(
@@ -401,8 +413,7 @@ class SignUpPage extends StatelessWidget {
                         controller.checkNickName(false);
                         return;
                       }
-                      var client = ArtemisClient(EnvironmentConfig.url);
-                      final res = await client.execute(
+                      final res = await Api.graphqlClient.execute(
                         ExistNickNameQuery(
                           variables: ExistNickNameArguments(
                             existNickNameInput: ExistNickNameInput(

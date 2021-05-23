@@ -206,6 +206,34 @@ class ExistNickNameInput with EquatableMixin {
   Map<String, dynamic> toJson() => _$ExistNickNameInputToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
+class GetOtp$Query$OtpOutput with EquatableMixin {
+  GetOtp$Query$OtpOutput();
+
+  factory GetOtp$Query$OtpOutput.fromJson(Map<String, dynamic> json) =>
+      _$GetOtp$Query$OtpOutputFromJson(json);
+
+  String value;
+
+  @override
+  List<Object> get props => [value];
+  Map<String, dynamic> toJson() => _$GetOtp$Query$OtpOutputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetOtp$Query with EquatableMixin {
+  GetOtp$Query();
+
+  factory GetOtp$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetOtp$QueryFromJson(json);
+
+  GetOtp$Query$OtpOutput otp;
+
+  @override
+  List<Object> get props => [otp];
+  Map<String, dynamic> toJson() => _$GetOtp$QueryToJson(this);
+}
+
 enum Os {
   @JsonValue('IOS')
   ios,
@@ -473,4 +501,40 @@ class ExistNickNameQuery
   @override
   ExistNickName$Query parse(Map<String, dynamic> json) =>
       ExistNickName$Query.fromJson(json);
+}
+
+class GetOtpQuery extends GraphQLQuery<GetOtp$Query, JsonSerializable> {
+  GetOtpQuery();
+
+  @override
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'GetOtp'),
+        variableDefinitions: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'otp'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'value'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ]))
+        ]))
+  ]);
+
+  @override
+  final String operationName = 'GetOtp';
+
+  @override
+  List<Object> get props => [document, operationName];
+  @override
+  GetOtp$Query parse(Map<String, dynamic> json) => GetOtp$Query.fromJson(json);
 }

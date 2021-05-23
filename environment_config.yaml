@@ -8,7 +8,11 @@ environment_config:
     url:
       type: String
       short_name: u
-      default: https://localhost:3001
+      default: https://iinow.synology.me:3001
+    graphqlUrl:
+      type: String
+      short_name: g
+      default: https://iinow.synology.me:3001/graphql
   
   # fields: # set of fields for command
   #   some_key: # key name

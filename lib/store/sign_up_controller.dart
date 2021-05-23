@@ -29,6 +29,9 @@ class SignUpController extends GetxController {
   }
 
   void handleNickName(String nickName) {
+    if (this.nickName.value == nickName) {
+      return;
+    }
     this.nickName(nickName);
     this.checkNickName(false);
   }

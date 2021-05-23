@@ -215,6 +215,29 @@ Map<String, dynamic> _$ExistNickNameInputToJson(ExistNickNameInput instance) =>
       'nickName': instance.nickName,
     };
 
+GetOtp$Query$OtpOutput _$GetOtp$Query$OtpOutputFromJson(
+    Map<String, dynamic> json) {
+  return GetOtp$Query$OtpOutput()..value = json['value'] as String;
+}
+
+Map<String, dynamic> _$GetOtp$Query$OtpOutputToJson(
+        GetOtp$Query$OtpOutput instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+    };
+
+GetOtp$Query _$GetOtp$QueryFromJson(Map<String, dynamic> json) {
+  return GetOtp$Query()
+    ..otp = json['otp'] == null
+        ? null
+        : GetOtp$Query$OtpOutput.fromJson(json['otp'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetOtp$QueryToJson(GetOtp$Query instance) =>
+    <String, dynamic>{
+      'otp': instance.otp?.toJson(),
+    };
+
 SignInArguments _$SignInArgumentsFromJson(Map<String, dynamic> json) {
   return SignInArguments(
     signInInput: json['signInInput'] == null

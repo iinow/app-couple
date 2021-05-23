@@ -23,3 +23,9 @@ query ExistNickName($existNickNameInput: ExistNickNameInput!) {
     exist
   }
 }
+
+query GetOtp {
+  otp {
+    value
+  }
+}
