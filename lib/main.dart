@@ -21,6 +21,7 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
 }
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
       builder: () => GetMaterialApp(
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: [const Locale('ko', 'KR')],
         debugShowCheckedModeBanner: false,

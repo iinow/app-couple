@@ -1,49 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/state_manager.dart';
 
-class DoCheckbox extends StatefulWidget {
+class DoCheckbox extends StatelessWidget {
   final Widget child;
-  bool value = false;
+  var value = false.obs;
   final String selectImage, unselectImage;
+  final Function onChangeValue;
+
   DoCheckbox({
     Key key,
     @required this.child,
     this.value,
     this.selectImage,
     this.unselectImage,
+    this.onChangeValue,
   }) : super(key: key);
-
-  @override
-  _DoCheckboxState createState() => _DoCheckboxState();
-}
-
-class _DoCheckboxState extends State<DoCheckbox> {
-  bool value = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            value = !value;
-            widget.value = value;
-          });
+          value(!value.value);
+          if (onChangeValue != null) {
+            onChangeValue(value.value);
+          }
         },
         child: Row(
           children: [
-            value
+            Obx(() => value.isTrue
                 ? SvgPicture.asset(
-                    widget.selectImage != null
-                        ? widget.selectImage
+                    selectImage != null
+                        ? selectImage
                         : "assets/svgs/sign_up/buttons_toggle_checkbox_btn_checkbox_selected.svg",
                   )
                 : SvgPicture.asset(
-                    widget.unselectImage != null
-                        ? widget.unselectImage
+                    unselectImage != null
+                        ? unselectImage
                         : "assets/svgs/sign_up/buttons_toggle_checkbox_btn_checkbox_unselected.svg",
-                  ),
-            widget.child == null ? Container() : widget.child
+                  )),
+            child == null ? Container() : child
           ],
         ),
       ),

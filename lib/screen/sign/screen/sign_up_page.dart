@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:artemis/artemis.dart';
 import 'package:doing_app/common/constants/environment_config.dart';
 import 'package:doing_app/common/widgets/do_check_box.dart';
@@ -11,6 +14,8 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:get/state_manager.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUpPage extends StatelessWidget {
   @override
@@ -48,18 +53,30 @@ class SignUpPage extends StatelessWidget {
             SizedBox(
               height: ScreenUtil().setHeight(24),
             ),
-            formAgree(
-                context,
-                signUpController.checkAll.value,
-                signUpController.checkAge.value,
-                signUpController.checkTermsAndConditions.value,
-                signUpController.checkCollectPersonalInformation.value,
-                signUpController.checkMarketingUtilization.value),
+            formAgree(context, signUpController),
             SizedBox(
               height: ScreenUtil().setHeight(44),
             ),
-            btnRegistration(onTap: () {
-              print("dkdjkd ${ScreenUtil().screenHeight}");
+            btnRegistration(onTap: () async {
+              if (Get.find<SignUpController>().checkNickName.isFalse) {
+                await showOkAlertDialog(
+                  context: context,
+                  title: '실패',
+                  message: '닉네임 중복 확인 버튼을 눌러주세요.',
+                  barrierDismissible: true,
+                );
+                return;
+              }
+              if (Get.find<SignUpController>().isRequiredCheck().isFalse) {
+                await showOkAlertDialog(
+                  context: context,
+                  title: '실패',
+                  message: '필수 동의 확인해주세요.',
+                  barrierDismissible: true,
+                );
+                return;
+              }
+              print("성공");
             }),
             SizedBox(
               height: ScreenUtil().setHeight(40),
@@ -98,18 +115,31 @@ class SignUpPage extends StatelessWidget {
                     ],
                   ),
                   alignment: Alignment.center,
-                  child: SvgPicture.asset(
-                    "assets/svgs/sign_up/img_profile_large_default.svg",
-                    height: ScreenUtil().setHeight(80),
-                    width: ScreenUtil().setWidth(80),
+                  child: Obx(
+                    () => Get.find<SignUpController>().imagePath.isNotEmpty
+                        ? Image.file(
+                            File(Get.find<SignUpController>().imagePath.value),
+                            height: ScreenUtil().setHeight(80),
+                            width: ScreenUtil().setWidth(80),
+                          )
+                        : SvgPicture.asset(
+                            "assets/svgs/sign_up/img_profile_large_default.svg",
+                            height: ScreenUtil().setHeight(80),
+                            width: ScreenUtil().setWidth(80),
+                          ),
                   ),
                 ),
                 Positioned(
                   right: ScreenUtil().setWidth(-30),
                   bottom: ScreenUtil().setWidth(-40),
                   child: InkWell(
-                    onTap: () {
-                      print("앨범, 카메라 열기");
+                    onTap: () async {
+                      var image = await ImagePicker()
+                          .getImage(source: ImageSource.gallery);
+                      if (image == null) {
+                        return;
+                      }
+                      Get.find<SignUpController>().imagePath(image.path);
                     },
                     child: Container(
                       child: Image.asset(
@@ -191,14 +221,7 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget formAgree(
-    BuildContext context,
-    bool checkAll,
-    bool checkAge,
-    bool checkTermsAndConditions,
-    bool checkCollectPersonalInfomation,
-    bool checkMarketingUtilzation,
-  ) {
+  Widget formAgree(BuildContext context, SignUpController controller) {
     return Container(
       child: Column(
         children: [
@@ -207,18 +230,23 @@ class SignUpPage extends StatelessWidget {
               top: ScreenUtil().setHeight(16),
               bottom: ScreenUtil().setHeight(16),
             ),
-            child: DoCheckbox(
-              value: checkAll,
-              child: Container(
-                margin: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(8),
-                ),
-                child: Text(
-                  "모두 동의하기",
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(14),
-                    color: HexColor.fromHex("#242424"),
-                    fontWeight: FontWeight.bold,
+            child: Obx(
+              () => DoCheckbox(
+                value: controller.checkAll(),
+                onChangeValue: (bool value) {
+                  controller.handleCheckAll();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(
+                    left: ScreenUtil().setWidth(8),
+                  ),
+                  child: Text(
+                    "모두 동의하기",
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(14),
+                      color: HexColor.fromHex("#242424"),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -232,18 +260,18 @@ class SignUpPage extends StatelessWidget {
             ),
           ),
           agreeContentItem(
-            value: checkAge,
+            value: controller.checkAge,
             title: "[필수] 만 14세 이상입니다.",
           ),
           agreeContentItem(
-            value: checkTermsAndConditions,
+            value: controller.checkTermsAndConditions,
             title: "[필수] 이용약관 동의",
           ),
           agreeContentItem(
-              value: checkCollectPersonalInfomation,
+              value: controller.checkCollectPersonalInformation,
               title: "[필수] 개인정보수집 및 이용 동의"),
           agreeContentItem(
-            value: checkMarketingUtilzation,
+            value: controller.checkMarketingUtilization,
             title: "[선택] 마케팅 이용 수신 동의",
           ),
         ],
@@ -251,7 +279,7 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget agreeContentItem({bool value, String title, String link}) {
+  Widget agreeContentItem({RxBool value, String title, String link}) {
     return Container(
       padding: EdgeInsets.only(
         top: ScreenUtil().setHeight(10),
